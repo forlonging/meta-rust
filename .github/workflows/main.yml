@@ -5,12 +5,12 @@ jobs:
       fail-fast: false
       matrix:
         branch:
-          - {distro: kirkstone, version: 4.0.1, machine: qemux86-64}
-          - {distro: langdale, version: 4.1.4, machine: qemux86-64}
-          - {distro: mickledore, version: 4.2.2, machine: qemux86-64}
-          - {distro: scarthgap, version: 5.0.7, machine: qemux86-64}
-          - {distro: scarthgap, version: 5.0.7, machine: qemuarm64}
-          - {distro: scarthgap, version: 5.0.7, machine: qemuarm}
+          - { distro: kirkstone, version: 4.0.1, machine: qemux86-64 }
+          - { distro: langdale, version: 4.1.4, machine: qemux86-64 }
+          - { distro: mickledore, version: 4.2.2, machine: qemux86-64 }
+          - { distro: scarthgap, version: 5.0.7, machine: qemux86-64 }
+          - { distro: scarthgap, version: 5.0.7, machine: qemuarm64 }
+          - { distro: scarthgap, version: 5.0.7, machine: qemuarm }
     env:
       YOCTO_VERSION: ${{ matrix.branch.version }}
       YOCTO_BRANCH: ${{ matrix.branch.distro }}
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          path: 'meta-rust'
+          path: "meta-rust"
       - name: Fetch poky
         run: |
           mv poky/build/sstate-cache . || true
@@ -44,6 +44,5 @@ jobs:
           cd poky
           . oe-init-build-env
           bitbake rust-hello-world
-          if [ "$YOCTO_BRANCH" != kirkstone ]; then
-            bitbake python3-cryptography
-          fi
+          bitbake python3-cryptography
+          bitbake nativesdk-python3-cryptography
